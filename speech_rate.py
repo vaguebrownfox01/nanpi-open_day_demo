@@ -7,6 +7,15 @@ import librosa
 
 counter = 0
 
+def tap_audio(indata, frames, time, status):
+
+    signal = np.reshape(indata, indata.size)
+
+    rxx = np.abs(np.correlate(sig, sig,mode='full'))
+
+
+
+
 
 def simple_vad(sig, connection,  frame_len, counter):
     # print('simple_vad:before reshape sig = ', sig.shape)
@@ -19,7 +28,6 @@ def simple_vad(sig, connection,  frame_len, counter):
     # Pavan added the below line. commenting to test if just len(peaks) will make the fan run more frequentlu
     #peaks = round(len(peaks)*rxx[len(sig)-1])
     peaks = round(len(peaks))
-
 
     # global i
     global peaks_avg

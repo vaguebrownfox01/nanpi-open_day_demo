@@ -15,8 +15,7 @@ import numpy as np
 import sounddevice as sd
 
 
-from open_day_code_murli_mod import simple_vad
-from pc.server import setup_socket
+from speech_rate import tap_audio
 
 from PyQt5 import QtCore, QtWidgets,QtGui
 from PyQt5 import uic
@@ -59,8 +58,7 @@ class PyShine_LIVE_PLOT_APP(QtWidgets.QMainWindow):
         self.window_length = 1000
         self.downsample = 1
         self.channels = [1]
-        self.interval = 30 
-        self.connection = setup_socket()
+        self.interval = 30
         
         # device_info =  sd.query_devices(self.device, 'input')
         
@@ -90,13 +88,9 @@ class PyShine_LIVE_PLOT_APP(QtWidgets.QMainWindow):
         try:
             QtWidgets.QApplication.processEvents()	
             def audio_callback(indata, frames, time, status):
-                # print("INDATA---",indata)
-                #test_array=np.ones((1136,1))
-                #simple_vad(test_array, self.connection)
 
-                simple_vad(indata, self.connection, len(frames))
+                tap_audio(indata, frames, time, status)
 
-                # print("INDATA TYPE",type(indata),indata.shape)
                 self.q.put(indata[::self.downsample,[0]])
             stream  = sd.InputStream( device = self.device, channels = max(self.channels), samplerate =self.samplerate, callback  = audio_callback)
             #print("TESTING STREAM DATA----",stream)

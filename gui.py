@@ -13,8 +13,10 @@ import matplotlib.ticker as ticker
 import queue
 import numpy as np
 import sounddevice as sd
+
+
 from open_day_code_murli_mod import simple_vad
-from server_latest import setup_socket
+from pc.server import setup_socket
 
 from PyQt5 import QtCore, QtWidgets,QtGui
 from PyQt5 import uic
@@ -87,13 +89,14 @@ class PyShine_LIVE_PLOT_APP(QtWidgets.QMainWindow):
     def getAudio(self):
         try:
             QtWidgets.QApplication.processEvents()	
-            def audio_callback(indata,frames,time,status):
+            def audio_callback(indata, frames, time, status):
                 # print("INDATA---",indata)
                 #test_array=np.ones((1136,1))
                 #simple_vad(test_array, self.connection)
-                simple_vad(indata, self.connection)
 
-                print("INDATA TYPE",type(indata),indata.shape)
+                simple_vad(indata, self.connection, len(frames))
+
+                # print("INDATA TYPE",type(indata),indata.shape)
                 self.q.put(indata[::self.downsample,[0]])
             stream  = sd.InputStream( device = self.device, channels = max(self.channels), samplerate =self.samplerate, callback  = audio_callback)
             #print("TESTING STREAM DATA----",stream)

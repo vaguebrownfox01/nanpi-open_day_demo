@@ -9,7 +9,7 @@ import soundfile as sf
 import matplotlib.pyplot as plt
 import librosa
 
-from server_latest import sending_data
+from pc.server import sending_data
 
 def simple_vad_trail(sig):
     

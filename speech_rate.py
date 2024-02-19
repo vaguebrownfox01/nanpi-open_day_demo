@@ -3,15 +3,23 @@ from scipy.signal import find_peaks
 import soundfile as sf
 import matplotlib.pyplot as plt
 import librosa
+from server import setup_socket, send_data
 
 
 counter = 0
+connection = None
 
 def tap_audio(indata, frames, time, status):
+    global connection
+
+    if not connection:
+        connection = setup_socket()
 
     signal = np.reshape(indata, indata.size)
 
-    rxx = np.abs(np.correlate(sig, sig,mode='full'))
+    peaks = simple_vad(signal)
+
+    send_data(peaks, connection)
 
 
 

@@ -44,7 +44,7 @@ def send_data(data, connection):
 
     connection.send(bytes(msg, ENCODE))
 
-def test_loop():
+def test_comm():
     speeds = [(round((math.sin(0 + i * ((2 * math.pi) / 100)) + 1) * 50)) for i in range(101)]
     conn = setup_socket()
 
@@ -56,4 +56,4 @@ def test_loop():
         time.sleep(0.03)
 
 if __name__ == "__main__":
-    test_loop()
+    test_comm()

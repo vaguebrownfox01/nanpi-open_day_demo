@@ -13,7 +13,7 @@ from pc.server import sending_data
 
 def simple_vad_trail(sig):
     
-    rxx = np.abs(np.correlate(sig,sig,mode='full'))    
+    rxx = np.abs(np.correlate(sig,sig,mode='full'))   
     th1 = np.max(rxx)
     th2 = np.mean(rxx)
     th3 = np.median(rxx)
